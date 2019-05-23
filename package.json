@@ -1,5 +1,5 @@
 {
-  "name": "angular-idle-service",
+  "name": "idle-service",
   "version": "0.0.1",
   "description": "A RxJS based service that responds to idle users.",
   "main": "./lib/index.js",
@@ -16,8 +16,6 @@
   "keywords": [
     "idle",
     "ng-idle",
-    "angular-idle-service",
-    "angular-idle",
     "user",
     "session",
     "rxjs-idle",
