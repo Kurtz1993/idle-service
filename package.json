@@ -1,17 +1,17 @@
 {
   "name": "idle-service",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "A RxJS based service that responds to idle users.",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "start": "parcel test/index.html",
     "prebuild": "rimraf dist/",
     "build": "tsc"
   },
   "typescript": {
-    "definition": "lib/index.d.ts"
+    "definition": "dist/index.d.ts"
   },
-  "typings": "lib/index.d.ts",
+  "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kurtz1993/idle-service.git"
@@ -40,8 +40,7 @@
     "typescript": "^3.4.5"
   },
   "files": [
-    "dist",
-    "readme.md",
-    "LICENSE"
+    "dist/",
+    "readme.md"
   ]
 }
