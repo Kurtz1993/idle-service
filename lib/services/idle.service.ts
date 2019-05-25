@@ -83,6 +83,11 @@ export class IdleService {
   }
 
   /**
+   * Resets the service.
+   */
+  reset = this.start();
+
+  /**
    * Starts the timeout countdown.
    * If the user performs a valid action, the countdown stops.
    */
