@@ -51,10 +51,9 @@ export class IdleService {
       this.userIsActive$.subscribe(() => console.log("Interrupted by user action")),
       this.userInactivityTimer$.subscribe(val => {
         this.idleState.userInactivityTime = val + 1;
-        console.log(`User has been inactive for ${this.idleState.userInactivityTime} seconds...`);
       }),
       this.idleTimer$.subscribe(() => {
-        console.log("Toggling state to idle...");
+        this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.UserIsIdle));
         this.startTimeoutCountdown();
       })
     );
@@ -85,6 +84,7 @@ export class IdleService {
       .subscribe(
         () => {
           countdown--;
+          this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.TimeoutWarning, countdown));
 
           if (countdown == 0) {
             this.timeout();
