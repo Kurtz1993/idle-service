@@ -4,6 +4,7 @@
   "description": "A RxJS based service that responds to idle users.",
   "main": "./lib/index.js",
   "scripts": {
+    "start": "parcel ./test/index.html"
   },
   "typescript": {
     "definition": "lib/index.d.ts"
@@ -28,8 +29,12 @@
   },
   "homepage": "https://github.com/Kurtz1993/idle-service#readme",
   "peerDependencies": {
+    "rxjs": "^6.5.2"
   },
   "devDependencies": {
+    "parcel": "^1.12.3",
+    "rxjs": "^6.5.2",
+    "typescript": "^3.4.5"
   },
   "files": [
     "dist",
