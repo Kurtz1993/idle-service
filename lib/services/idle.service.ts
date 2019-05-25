@@ -21,8 +21,8 @@ import {
 import { IdleOptions, IdleState, IdleEvents, IdleServiceEvent } from "../types";
 
 export class IdleService {
+  idleState = new IdleState();
   private options = new IdleOptions();
-  private idleState = new IdleState();
   private userIsActive$: Observable<{}>;
   private interruptions$: Observable<{}>;
   private idleTimer$: Observable<number>;
@@ -32,8 +32,15 @@ export class IdleService {
   private eventEmitter$ = new Subject<IdleServiceEvent>();
 
   constructor() {
-    this.options.timeToIdle = 10;
-    this.options.timeToTimeout = 5;
+    this.rebuildObservables(this.options.listenFor, this.options.timeToIdle);
+  }
+
+  /**
+   * Configures the service with the given parameters.
+   * @param options New options to configure the service. You can just pass the needed keys.
+   */
+  configure(options: Partial<IdleOptions>): void {
+    this.options = { ...this.options, ...options };
     this.rebuildObservables(this.options.listenFor, this.options.timeToIdle);
   }
 

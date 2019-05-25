@@ -1,5 +1,6 @@
 import service, { IdleEvents } from "../lib";
 
+service.configure({ timeToIdle: 10, timeToTimeout: 5 });
 service.start();
 
 document.getElementById("resume").addEventListener("click", service.start.bind(service));
