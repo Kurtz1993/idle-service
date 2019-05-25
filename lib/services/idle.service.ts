@@ -77,7 +77,7 @@ export class IdleService {
     this.idleState.isServiceRunning = false;
     this.idleState.hasTimedout = true;
     this.timedOut$.next();
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.unsubscribeAll();
   }
 
   /**
@@ -105,6 +105,10 @@ export class IdleService {
           if (this.idleState.isIdle) {
             this.idleState.isIdle = false;
             this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.UserIsBack));
+          }
+
+          if (!this.options.autoResume) {
+            this.unsubscribeAll();
           }
         }
       );
@@ -144,5 +148,12 @@ export class IdleService {
       takeUntil(this.interruptions$),
       repeat()
     );
+  }
+
+  /**
+   * Removes all the current observable subscriptions.
+   */
+  private unsubscribeAll(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
