@@ -3,7 +3,8 @@ import service, { IdleEvents } from "../lib";
 service.configure({ timeToIdle: 10, timeToTimeout: 5 });
 service.start();
 
-document.getElementById("resume").addEventListener("click", service.start.bind(service));
+document.getElementById("resume").addEventListener("click", service.reset.bind(service));
+document.getElementById("stop").addEventListener("click", service.stop.bind(service));
 
 service.on(IdleEvents.UserIsBack, () => {
   console.log("User is back!");
