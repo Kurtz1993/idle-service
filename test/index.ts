@@ -1,6 +1,4 @@
-import { IdleService, IdleEvents } from "../lib";
-
-const service = new IdleService();
+import service, { IdleEvents } from "../lib";
 
 service.start();
 
