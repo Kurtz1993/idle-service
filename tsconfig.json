@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDir": "./lib",
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
+    "outDir": "./dist"
+  },
+  "files": [
+    "./lib/index.ts"
+  ],
+  "compileOnSave": false
+}
