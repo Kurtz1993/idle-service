@@ -64,7 +64,7 @@ class IdleOptions {
 ```
 
 ```typescript
-export declare class UserState {
+class UserState {
     /**
      * Specifies if the user is idle.
      */
