@@ -18,10 +18,11 @@ import {
   map,
 } from "rxjs/operators";
 
-import { IdleOptions, IdleState, IdleEvents, IdleServiceEvent } from "../types";
+import { IdleOptions, UserState, IdleEvents, IdleServiceEvent } from "../types";
 
 export class IdleService {
-  idleState = new IdleState();
+  userState = new UserState();
+  private isRunning = false;
   private options = new IdleOptions();
   private userIsActive$: Observable<{}>;
   private interruptions$: Observable<{}>;
@@ -48,18 +49,18 @@ export class IdleService {
    * Starts watching user activity.
    */
   start(): void {
-    if (this.idleState.isServiceRunning) {
+    if (this.isRunning) {
       this.timeout();
     }
 
-    this.idleState.isServiceRunning = true;
+    this.isRunning = true;
 
     this.subscriptions.push(
       this.userIsActive$.subscribe(() =>
         this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.UserIsActive))
       ),
       this.userInactivityTimer$.subscribe(val => {
-        this.idleState.userInactivityTime = val + 1;
+        this.userState.userInactivityTime = val + 1;
       }),
       this.idleTimer$.subscribe(() => {
         this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.UserIsIdle));
@@ -73,9 +74,9 @@ export class IdleService {
    * Service can be restarted by calling the start() method.
    */
   timeout(): void {
-    this.idleState.isIdle = false;
-    this.idleState.isServiceRunning = false;
-    this.idleState.hasTimedout = true;
+    this.userState.isIdle = false;
+    this.isRunning = false;
+    this.userState.hasTimedout = true;
     this.timedOut$.next();
     this.unsubscribeAll();
   }
@@ -86,7 +87,7 @@ export class IdleService {
    */
 
   startTimeoutCountdown(): void {
-    this.idleState.isIdle = true;
+    this.userState.isIdle = true;
     let countdown = this.options.timeToTimeout;
     interval(1000)
       .pipe(takeUntil(this.interruptions$))
@@ -102,8 +103,8 @@ export class IdleService {
         },
         null,
         () => {
-          if (this.idleState.isIdle) {
-            this.idleState.isIdle = false;
+          if (this.userState.isIdle) {
+            this.userState.isIdle = false;
             this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.UserIsBack));
           }
 
