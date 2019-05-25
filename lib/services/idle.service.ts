@@ -50,7 +50,7 @@ export class IdleService {
    */
   start(): void {
     if (this.isRunning) {
-      this.timeout();
+      this.stop();
     }
 
     this.isRunning = true;
@@ -70,13 +70,14 @@ export class IdleService {
   }
 
   /**
-   * Forces a user timeout, stopping all the timers and the service itself.
+   * Stops the service from running.
    * Service can be restarted by calling the start() method.
+   * @param timedOut Specifies if the service was stopped because of the user being timedout.
    */
-  timeout(): void {
+  stop(timedOut = false): void {
     this.userState.isIdle = false;
     this.isRunning = false;
-    this.userState.hasTimedout = true;
+    this.userState.hasTimedout = timedOut;
     this.timedOut$.next();
     this.unsubscribeAll();
   }
@@ -97,7 +98,7 @@ export class IdleService {
           this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.TimeoutWarning, countdown));
 
           if (countdown == 0) {
-            this.timeout();
+            this.stop(true);
             this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.UserHasTimedOut));
           }
         },
