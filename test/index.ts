@@ -19,3 +19,7 @@ service.on(IdleEvents.TimeoutWarning, countdown => {
 service.on(IdleEvents.UserIsIdle, () => {
   console.log("User has become idle!");
 });
+
+service.on(IdleEvents.UserIsActive, () => {
+  console.log("User is active");
+});
