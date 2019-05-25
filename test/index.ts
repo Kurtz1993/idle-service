@@ -11,3 +11,11 @@ service.on(IdleEvents.UserIsBack, () => {
 service.on(IdleEvents.UserHasTimedOut, () => {
   console.log("User has timed out!");
 });
+
+service.on(IdleEvents.TimeoutWarning, countdown => {
+  console.log(`User has ${countdown} seconds to come back!`);
+});
+
+service.on(IdleEvents.UserIsIdle, () => {
+  console.log("User has become idle!");
+});
