@@ -4,7 +4,9 @@
   "description": "A RxJS based service that responds to idle users.",
   "main": "./lib/index.js",
   "scripts": {
-    "start": "parcel ./test/index.html"
+    "start": "parcel test/index.html",
+    "prebuild": "rimraf dist/",
+    "build": "tsc"
   },
   "typescript": {
     "definition": "lib/index.d.ts"
