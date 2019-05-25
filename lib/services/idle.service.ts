@@ -48,7 +48,9 @@ export class IdleService {
     this.idleState.isServiceRunning = true;
 
     this.subscriptions.push(
-      this.userIsActive$.subscribe(() => console.log("Interrupted by user action")),
+      this.userIsActive$.subscribe(() =>
+        this.eventEmitter$.next(new IdleServiceEvent(IdleEvents.UserIsActive))
+      ),
       this.userInactivityTimer$.subscribe(val => {
         this.idleState.userInactivityTime = val + 1;
       }),

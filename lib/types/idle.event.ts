@@ -8,6 +8,7 @@ export class IdleServiceEvent {
 }
 
 export enum IdleEvents {
+  UserIsActive,
   UserIsIdle,
   UserIsBack,
   TimeoutWarning,
