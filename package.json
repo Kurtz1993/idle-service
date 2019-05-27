@@ -31,12 +31,12 @@
   },
   "homepage": "https://github.com/Kurtz1993/idle-service#readme",
   "peerDependencies": {
-    "rxjs": "^6.5.2"
+    "rxjs": "^5.4.0"
   },
   "devDependencies": {
     "parcel": "^1.12.3",
     "rimraf": "^2.6.3",
-    "rxjs": "^6.5.2",
+    "rxjs": "^5.4.0",
     "typescript": "^3.4.5"
   }
 }
