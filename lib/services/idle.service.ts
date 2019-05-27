@@ -1,22 +1,13 @@
-import {
-  Observable,
-  Subject,
-  SubscriptionLike,
-  fromEvent,
-  merge,
-  interval,
-  timer,
-  Subscription,
-} from "rxjs";
-import {
-  throttleTime,
-  takeUntil,
-  takeWhile,
-  repeat,
-  repeatWhen,
-  filter,
-  map,
-} from "rxjs/operators";
+import { Observable, Subject, Subscription } from "rxjs";
+import "rxjs/observable/fromEvent";
+import "rxjs/observable/merge";
+import "rxjs/observable/interval";
+import "rxjs/observable/timer";
+import "rxjs/operator/throttleTime";
+import "rxjs/operator/takeUntil";
+import "rxjs/operator/repeat";
+import "rxjs/operator/filter";
+import "rxjs/operator/map";
 
 import { IdleOptions, UserState, IdleEvents, IdleServiceEvent } from "../types";
 
@@ -29,7 +20,7 @@ export class IdleService {
   private idleTimer$: Observable<number>;
   private userInactivityTimer$: Observable<number>;
   private timedOut$ = new Subject<null>();
-  private subscriptions: SubscriptionLike[] = [];
+  private subscriptions: Subscription[] = [];
   private eventEmitter$ = new Subject<IdleServiceEvent>();
 
   constructor() {
@@ -95,8 +86,8 @@ export class IdleService {
   startTimeoutCountdown(): void {
     this.userState.isIdle = true;
     let countdown = this.options.timeToTimeout;
-    interval(1000)
-      .pipe(takeUntil(this.interruptions$))
+    Observable.interval(1000)
+      .takeUntil(this.interruptions$)
       .subscribe(
         () => {
           countdown--;
@@ -128,10 +119,8 @@ export class IdleService {
    */
   on(eventType: IdleEvents, action: (value) => void): Subscription {
     return this.eventEmitter$
-      .pipe(
-        filter(event => event.eventType === eventType),
-        map(event => event.value)
-      )
+      .filter(event => event.eventType === eventType)
+      .map(event => event.value)
       .subscribe(action);
   }
 
@@ -143,18 +132,18 @@ export class IdleService {
    */
   private rebuildObservables(events: string, timeToIdle: number): void {
     const htmlElm = document.querySelector("html");
-    const observables = events.split(" ").map(ev => fromEvent(htmlElm, ev).pipe(throttleTime(500)));
+    const observables = events
+      .split(" ")
+      .map(ev => Observable.fromEvent(htmlElm, ev).throttleTime(500));
 
-    this.userIsActive$ = merge(...observables);
-    this.interruptions$ = merge(this.userIsActive$, this.timedOut$);
-    this.idleTimer$ = timer(timeToIdle * 1000).pipe(
-      takeUntil(this.userIsActive$),
-      repeat()
-    );
-    this.userInactivityTimer$ = interval(1000).pipe(
-      takeUntil(this.interruptions$),
-      repeat()
-    );
+    this.userIsActive$ = Observable.merge(...observables);
+    this.interruptions$ = Observable.merge(this.userIsActive$, this.timedOut$);
+    this.idleTimer$ = Observable.timer(timeToIdle * 1000)
+      .takeUntil(this.userIsActive$)
+      .repeat();
+    this.userInactivityTimer$ = Observable.interval(1000)
+      .takeUntil(this.interruptions$)
+      .repeat();
   }
 
   /**
