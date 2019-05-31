@@ -6,7 +6,8 @@
   "scripts": {
     "start": "parcel test/index.html",
     "prebuild": "rimraf dist/",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "typescript": {
     "definition": "dist/index.d.ts"
