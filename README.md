@@ -1,10 +1,11 @@
 # idle-service
+**This version requires RxJS v5, if you want to use RxJS v6 check the [master branch.](https://github.com/Kurtz1993/idle-service)**
 
 ## Description
 Some applications may need to detect if a user is idle and perform certain actions when this happens like warning them about this inactivity or logging them out of the application.
 
 ## Installation
-You can install the module via `npm install idle-service` or `yarn add idle-service`.
+You can install the module via `npm install idle-service@rxjs5` or `yarn add idle-service`.
 
 ## API Reference
 ```typescript
