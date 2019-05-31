@@ -1,5 +1,7 @@
 # idle-service
 
+**This version requires RxJS v6, if you want to use RxJS v5 check the [RxJS 5 branch.](https://github.com/Kurtz1993/idle-service/tree/rxjs-5)**
+
 ## Description
 Some applications may need to detect if a user is idle and perform certain actions when this happens like warning them about this inactivity or logging them out of the application.
 
