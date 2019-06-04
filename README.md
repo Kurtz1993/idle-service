@@ -3,12 +3,56 @@
 **This version requires RxJS v6, if you want to use RxJS v5 check the [RxJS 5 branch.](https://github.com/Kurtz1993/idle-service/tree/rxjs-5)**
 
 ## Description
+
 Some applications may need to detect if a user is idle and perform certain actions when this happens like warning them about this inactivity or logging them out of the application.
 
 ## Installation
+
 You can install the module via `npm install idle-service` or `yarn add idle-service`.
 
+### Usage
+
+```typescript
+import idleService, { IdleEvents } from "idle-service";
+
+service.on(IdleEvents.UserIsBack, () => {
+  console.log("User is back!");
+});
+
+service.on(IdleEvents.UserHasTimedOut, () => {
+  console.log("User has timed out!");
+});
+
+service.on(IdleEvents.TimeoutWarning, countdown => {
+  console.log(`User has ${countdown} seconds to come back!`);
+});
+
+service.on(IdleEvents.UserIsIdle, () => {
+  console.log("User has become idle!");
+});
+
+service.on(IdleEvents.UserIsActive, () => {
+  console.log("User is active");
+});
+```
+
+## Configuration
+
+You can configure the service to change the default timers and other options by calling the configure method.
+
+```typescript
+import idleService from "idle-service";
+
+idleService.configure({
+  timeToIdle: 10,
+  timeToTimeout: 5,
+  autoResume: true,
+  listenFor: "click mousemove",
+});
+```
+
 ## API Reference
+
 ```typescript
 class IdleService {
     userState: UserState;
@@ -46,43 +90,44 @@ class IdleService {
 
 ```typescript
 class IdleOptions {
-    /**
-     * Inactive time in seconds that the user needs to be considered idle.
-     */
-    timeToIdle: number;
-    /**
-     * Inactive time in seconds needed for the user to be considered timed out *AFTER* the user has been considered idle.
-     */
-    timeToTimeout: number;
-    /**
-     * Specifies if the service should auto resume itself after the user is considered idle.
-     */
-    autoResume: boolean;
-    /**
-     * DOM events to listen for the user to be considered active.
-     */
-    listenFor: string;
+  /**
+   * Inactive time in seconds that the user needs to be considered idle.
+   */
+  timeToIdle: number;
+  /**
+   * Inactive time in seconds needed for the user to be considered timed out *AFTER* the user has been considered idle.
+   */
+  timeToTimeout: number;
+  /**
+   * Specifies if the service should auto resume itself after the user is considered idle.
+   */
+  autoResume: boolean;
+  /**
+   * DOM events to listen for the user to be considered active.
+   */
+  listenFor: string;
 }
 ```
 
 ```typescript
 class UserState {
-    /**
-     * Specifies if the user is idle.
-     */
-    isIdle: boolean;
-    /**
-     * Specifies if the user has timed out.
-     */
-    hasTimedout: boolean;
-    /**
-     * Number of seconds the user has been inactive.
-     */
-    userInactivityTime: number;
+  /**
+   * Specifies if the user is idle.
+   */
+  isIdle: boolean;
+  /**
+   * Specifies if the user has timed out.
+   */
+  hasTimedout: boolean;
+  /**
+   * Number of seconds the user has been inactive.
+   */
+  userInactivityTime: number;
 }
 ```
 
 ## Events
+
 These are the events available within the IdleService:
 
 ```typescript
@@ -93,29 +138,4 @@ enum IdleEvents {
     TimeoutWarning
     UserHasTimedOut
 }
-```
-### Usage
-```typescript
-import idleService, { IdleEvents } from 'idle-service';
-
-service.on(IdleEvents.UserIsBack, () => {
-  console.log("User is back!");
-});
-
-service.on(IdleEvents.UserHasTimedOut, () => {
-  console.log("User has timed out!");
-});
-
-service.on(IdleEvents.TimeoutWarning, countdown => {
-  console.log(`User has ${countdown} seconds to come back!`);
-});
-
-service.on(IdleEvents.UserIsIdle, () => {
-  console.log("User has become idle!");
-});
-
-service.on(IdleEvents.UserIsActive, () => {
-  console.log("User is active");
-});
-
 ```
