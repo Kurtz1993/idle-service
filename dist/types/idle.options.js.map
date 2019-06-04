@@ -1,0 +1,1 @@
+{"version":3,"file":"idle.options.js","sourceRoot":"","sources":["../../lib/types/idle.options.ts"],"names":[],"mappings":";;AAAA,MAAa,WAAW;IACtB;;;;;;OAMG;IACH,YACS,aAAa,EAAE,GAAG,EAAE,EACpB,gBAAgB,EAAE,EAClB,aAAa,IAAI,EACjB,YAAY,0DAA0D;QAHtE,eAAU,GAAV,UAAU,CAAU;QACpB,kBAAa,GAAb,aAAa,CAAK;QAClB,eAAU,GAAV,UAAU,CAAO;QACjB,cAAS,GAAT,SAAS,CAA6D;IAC5E,CAAC;CACL;AAdD,kCAcC"}
