@@ -1,10 +1,21 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const rxjs_1 = require("rxjs");
-const operators_1 = require("rxjs/operators");
-const types_1 = require("../types");
-class IdleService {
-    constructor() {
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var types_1 = require("../types");
+var IdleService = /** @class */ (function () {
+    function IdleService() {
         this.userState = new types_1.UserState();
         this.isRunning = false;
         this.options = new types_1.IdleOptions();
@@ -21,93 +32,99 @@ class IdleService {
      * Configures the service with the given parameters.
      * @param options New options to configure the service. You can just pass the needed keys.
      */
-    configure(options) {
-        this.options = Object.assign({}, this.options, options);
+    IdleService.prototype.configure = function (options) {
+        this.options = __assign({}, this.options, options);
         this.rebuildObservables(this.options.listenFor, this.options.timeToIdle);
-    }
+    };
     /**
      * Starts watching user activity.
      */
-    start() {
+    IdleService.prototype.start = function () {
+        var _this = this;
         if (this.isRunning) {
             this.stop();
         }
         this.isRunning = true;
-        this.subscriptions.push(this.userIsActive$.subscribe(() => this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.UserIsActive))), this.userInactivityTimer$.subscribe(val => {
-            this.userState.userInactivityTime = val + 1;
-        }), this.idleTimer$.subscribe(() => {
-            this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.UserIsIdle));
-            this.startTimeoutCountdown();
+        this.subscriptions.push(this.userIsActive$.subscribe(function () {
+            return _this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.UserIsActive));
+        }), this.userInactivityTimer$.subscribe(function (val) {
+            _this.userState.userInactivityTime = val + 1;
+        }), this.idleTimer$.subscribe(function () {
+            _this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.UserIsIdle));
+            _this.startTimeoutCountdown();
         }));
-    }
+    };
     /**
      * Stops the service from running.
      * Service can be restarted by calling the start() method.
      * @param timedOut Specifies if the service was stopped because of the user being timedout.
      */
-    stop(timedOut = false) {
+    IdleService.prototype.stop = function (timedOut) {
+        if (timedOut === void 0) { timedOut = false; }
         this.userState.isIdle = false;
         this.isRunning = false;
         this.userState.hasTimedout = timedOut;
         this.timedOut$.next();
         this.unsubscribeAll();
-    }
+    };
     /**
      * Starts the timeout countdown.
      * If the user performs a valid action, the countdown stops.
      */
-    startTimeoutCountdown() {
+    IdleService.prototype.startTimeoutCountdown = function () {
+        var _this = this;
         this.userState.isIdle = true;
-        let countdown = this.options.timeToTimeout;
+        var countdown = this.options.timeToTimeout;
         rxjs_1.interval(1000)
             .pipe(operators_1.takeUntil(this.interruptions$))
-            .subscribe(() => {
+            .subscribe(function () {
             countdown--;
-            this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.TimeoutWarning, countdown));
+            _this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.TimeoutWarning, countdown));
             if (countdown == 0) {
-                this.stop(true);
-                this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.UserHasTimedOut));
+                _this.stop(true);
+                _this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.UserHasTimedOut));
             }
-        }, null, () => {
-            if (this.userState.isIdle) {
-                this.userState.isIdle = false;
-                this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.UserIsBack));
+        }, null, function () {
+            if (_this.userState.isIdle) {
+                _this.userState.isIdle = false;
+                _this.eventEmitter$.next(new types_1.IdleServiceEvent(types_1.IdleEvents.UserIsBack));
             }
-            if (!this.options.autoResume) {
-                this.unsubscribeAll();
+            if (!_this.options.autoResume) {
+                _this.unsubscribeAll();
             }
         });
-    }
+    };
     /**
      * Listens to a particular idle service event.
      * @param eventType Event to listen to.
      * @param action What the event listener should do when the event is triggered.
      */
-    on(eventType, action) {
+    IdleService.prototype.on = function (eventType, action) {
         return this.eventEmitter$
-            .pipe(operators_1.filter(event => event.eventType === eventType), operators_1.map(event => event.value))
+            .pipe(operators_1.filter(function (event) { return event.eventType === eventType; }), operators_1.map(function (event) { return event.value; }))
             .subscribe(action);
-    }
+    };
     /**
      * Builds the needed observables for the service.
      * This includes timers and event listeners.
      * @param events A pace-separated list of events to listen.
      * @param timeToIdle Inactive time in seconds that the user needs to be considered idle.
      */
-    rebuildObservables(events, timeToIdle) {
-        const htmlElm = document.querySelector("html");
-        const observables = events.split(" ").map(ev => rxjs_1.fromEvent(htmlElm, ev).pipe(operators_1.throttleTime(500)));
-        this.userIsActive$ = rxjs_1.merge(...observables);
+    IdleService.prototype.rebuildObservables = function (events, timeToIdle) {
+        var htmlElm = document.querySelector("html");
+        var observables = events.split(" ").map(function (ev) { return rxjs_1.fromEvent(htmlElm, ev).pipe(operators_1.throttleTime(500)); });
+        this.userIsActive$ = rxjs_1.merge.apply(void 0, observables);
         this.interruptions$ = rxjs_1.merge(this.userIsActive$, this.timedOut$);
         this.idleTimer$ = rxjs_1.timer(timeToIdle * 1000).pipe(operators_1.takeUntil(this.userIsActive$), operators_1.repeat());
         this.userInactivityTimer$ = rxjs_1.interval(1000).pipe(operators_1.takeUntil(this.interruptions$), operators_1.repeat());
-    }
+    };
     /**
      * Removes all the current observable subscriptions.
      */
-    unsubscribeAll() {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    }
-}
+    IdleService.prototype.unsubscribeAll = function () {
+        this.subscriptions.forEach(function (subscription) { return subscription.unsubscribe(); });
+    };
+    return IdleService;
+}());
 exports.IdleService = IdleService;
 //# sourceMappingURL=idle.service.js.map

@@ -1,16 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class IdleServiceEvent {
+var IdleServiceEvent = /** @class */ (function () {
     /**
      * Creates a new idle service event.
      * @param eventType Name of the event.
      * @param value Any value to pass as part of the event.
      */
-    constructor(eventType, value) {
+    function IdleServiceEvent(eventType, value) {
         this.eventType = eventType;
         this.value = value;
     }
-}
+    return IdleServiceEvent;
+}());
 exports.IdleServiceEvent = IdleServiceEvent;
 var IdleEvents;
 (function (IdleEvents) {
