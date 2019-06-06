@@ -1,5 +1,7 @@
 # idle-service
 
+![npm](https://img.shields.io/npm/v/idle-service.svg?style=flat-square)
+
 **This version requires RxJS v6, if you want to use RxJS v5 check the [RxJS 5 branch.](https://github.com/Kurtz1993/idle-service/tree/rxjs-5)**
 
 ## Description
@@ -13,14 +15,14 @@ You can install the module via `npm install idle-service` or `yarn add idle-serv
 ### Usage
 
 ```typescript
-import idleService, { IdleEvents } from "idle-service";
+import idleService, { IdleEvents } from 'idle-service';
 
 service.on(IdleEvents.UserIsBack, () => {
-  console.log("User is back!");
+  console.log('User is back!');
 });
 
 service.on(IdleEvents.UserHasTimedOut, () => {
-  console.log("User has timed out!");
+  console.log('User has timed out!');
 });
 
 service.on(IdleEvents.TimeoutWarning, countdown => {
@@ -28,11 +30,11 @@ service.on(IdleEvents.TimeoutWarning, countdown => {
 });
 
 service.on(IdleEvents.UserIsIdle, () => {
-  console.log("User has become idle!");
+  console.log('User has become idle!');
 });
 
 service.on(IdleEvents.UserIsActive, () => {
-  console.log("User is active");
+  console.log('User is active');
 });
 ```
 
@@ -41,13 +43,13 @@ service.on(IdleEvents.UserIsActive, () => {
 You can configure the service to change the default timers and other options by calling the configure method.
 
 ```typescript
-import idleService from "idle-service";
+import idleService from 'idle-service';
 
 idleService.configure({
   timeToIdle: 10,
   timeToTimeout: 5,
   autoResume: true,
-  listenFor: "click mousemove",
+  listenFor: 'click mousemove',
 });
 ```
 
