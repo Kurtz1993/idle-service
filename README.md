@@ -10,12 +10,12 @@ Some applications may need to detect if a user is idle and perform certain actio
 
 ## Installation
 
-You can install the module via `npm install idle-service` or `yarn add idle-service`.
+You can install the module via `npm install @kurtz1993/idle-service` or `yarn add @kurtz1993/idle-service`.
 
 ### Usage
 
 ```typescript
-import idleService, { IdleEvents } from 'idle-service';
+import idleService, { IdleEvents } from '@kurtz1993/idle-service';
 
 service.on(IdleEvents.UserIsBack, () => {
   console.log('User is back!');
