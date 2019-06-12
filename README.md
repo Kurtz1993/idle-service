@@ -1,6 +1,6 @@
 # idle-service
 
-![npm](https://img.shields.io/npm/v/idle-service.svg?style=flat-square)
+![npm (scoped)](https://img.shields.io/npm/v/@kurtz1993/idle-service.svg)
 
 **This version requires RxJS v6, if you want to use RxJS v5 check the [RxJS 5 branch.](https://github.com/Kurtz1993/idle-service/tree/rxjs-5)**
 
