@@ -1,6 +1,6 @@
 {
   "name": "@kurtz1993/idle-service",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A RxJS based service that responds to idle users.",
   "main": "./dist/index.js",
   "scripts": {
